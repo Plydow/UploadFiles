@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+    <title>File Upload Site with Advanced Features</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            min-height: 100vh;
+        }
+        .container {
+            padding: 20px;
+        }
+        .container-fluid {
+            background-color: #333;
+        }
+        nav ul li strong {
+            color: #4A90E2;
+        }
+        nav ul li a {
+            color: #AAA;
+        }
+        .grid {
+            gap: 20px;
+        }
+        .drop-zone {
+            border: 2px dashed #4A90E2;
+            padding: 20px;
+            text-align: center;
+            margin-top: 10px;
+            color: #AAA;
+            cursor: pointer;
+        }
+        .drop-zone:hover {
+            background-color: #333;
+        }
+        #fileList {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        #fileList li {
+            margin-top: 10px;
+            color: #AAA;
+            cursor: pointer;
+        }
+        #fileList li:hover {
+            color: #FFF;
+        }
+        .file-name {
+            display: inline-block;
+            max-width: 90%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .remove-file {
+            color: #E53E3E;
+            float: right;
+            cursor: pointer;
+        }
+        .upload-btn {
+            display: block;
+            width: 100%;
+            margin-top: 20px;
+            background-color: #4A90E2;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+            cursor: pointer;
+            border: none;
+        }
+        .upload-btn:hover {
+            background-color: #357ABD;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        let selectedFiles = [];
+
+        function updateFileList() {
+            const fileList = document.getElementById('fileList');
+            fileList.innerHTML = '';
+            selectedFiles.forEach((file, index) => {
+                fileList.innerHTML += `<li>${file.name} <span class="remove-file" onclick="removeFile(${index})">&times;</span></li>`;
+            });
+        }
+
+        function addFiles(newFiles) {
+            for (const file of newFiles) {
+                if (!selectedFiles.map(f => f.name).includes(file.name)) {
+                    selectedFiles.push(file);
+                }
+            }
+            updateFileList();
+        }
+
+        function removeFile(index) {
+            selectedFiles.splice(index, 1);
+            updateFileList();
+        }
+
+        function setupDragAndDrop() {
+            const dropZone = document.getElementById('dropZone');
+            dropZone.addEventListener('dragover', (e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                e.dataTransfer.dropEffect = 'copy';
+            });
+
+            dropZone.addEventListener('drop', (e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                addFiles(e.dataTransfer.files);
+            });
+
+            dropZone.addEventListener('click', () => {
+                document.getElementById('fileUpload').click();
+            });
+        }
+
+        function uploadFiles() {
+            const formData = new FormData();
+            formData.append('folder', document.getElementById('folders').value);
+            for (const file of selectedFiles) {
+                formData.append('files[]', file);
+            }
+
+            fetch('/proccess', {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                alert('Files uploaded successfully!');
+                selectedFiles = []; // Clear the array after successful upload
+                updateFileList();
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert('Error uploading files');
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            setupDragAndDrop();
+            document.getElementById('fileUpload').addEventListener('change', (e) => {
+                addFiles(e.target.files);
+            });
+        });
+    </script>
+    <nav class="container-fluid">
+        <ul>
+            <li><img src="{{ url_for('static', filename='logo.webp') }}" alt="" style="width: 50px;"></li>
+            <li><strong>Upload Site</strong></li>
+        </ul>
+        <ul>
+            <li><a href="/logout" role="button">Logout</a></li>
+        </ul>
+    </nav>
+    <main class="container">
+        <div class="grid">
+            <section>
+                <hgroup>
+                    <h2>Upload Your Files</h2>
+                    <h3>Select Export Folder</h3>
+                </hgroup>
+                <p>Select the export folder where you want your files to be uploaded:</p>
+                <select name="folders" id="folders">
+                    {% for folder in folders %}
+                        <option value="{{ folder.path }}">{{ folder.name }}</option>
+                    {% endfor %}
+                </select>
+                <h3>File Upload</h3>
+                <p>Upload multiple files by selecting them or dragging them into the area below. The list will update with the option to remove any file:</p>
+                <div id="dropZone" class="drop-zone">Drag and drop files here or click to select files</div>
+                <input type="file" id="fileUpload" name="fileUpload" multiple style="display:none;">
+                <ul id="fileList"></ul>
+                <button class="upload-btn" onclick="uploadFiles();">Upload Files</button>
+            </section>
+        </div>
+    </main>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" style="height: 100%;">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+    <title>Login Page</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            background-color: #121212;
+            color: #ffffff;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+        .container {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container-fluid {
+            background-color: #333;
+            height: 72px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            padding-left: 20px; /* Added padding for title alignment */
+        }
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+        }
+        nav ul li {
+            margin: 0 10px;
+        }
+        nav ul li a, nav ul li strong {
+            display: block;
+            color: #AAA;
+            text-decoration: none;
+            padding: 10px 16px;
+        }
+        nav ul li strong {
+            color: #4A90E2;
+        }
+        input[type="password"], button {
+            margin-top: 10px;
+            width: 100%;
+            padding: 8px;
+        }
+        button {
+            background-color: #4A90E2;
+            color: #FFF;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #357ABD;
+        }
+    </style>
+</head>
+<body>
+    <nav class="container-fluid">
+        <ul>
+            <li><img src="{{ url_for('static', filename='logo.webp') }}" alt="" style="width: 50px;"></li>
+            <li><strong>Upload Site</strong></li>
+        </ul>
+        <ul style="margin-left: auto;">
+            <!-- Adjusted for title on the left -->
+        </ul>
+    </nav>
+    <main class="container">
+        <form action="" method="post">
+            <h2>Login</h2>
+            <p>Please enter your password to login:</p>
+            {{form.hidden_tag()}}
+            {{form.password()}}
+            {{form.submit()}}
+        </form>
+    </main>
+</body>
+</html>      

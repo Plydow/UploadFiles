@@ -1,0 +1,17 @@
+VERSION: '0.1.0'
+
+PASSWORD: 'E0bs0etDzR0SSnTqysXlRxxvd7ii1StU'
+
+SECRET_KEY: 'rnfWhS0RvAssn04Dzc3STpSO93TPYljo'
+
+BASE_EXPORT_PATH: '/tmp'
+EXPORT_PATH:
+  - path: 'jellyfin_media'
+    format: ['.avi', '.mkv', '.mp4']
+    name: 'Jellyfin Media'
+  - path: 'audiobookshell'
+    format: ['.mp3']
+    name: 'Audiobooks'
+  - path: 'ebooks'
+    format: ['.pdf', '.epub']
+    name: 'Ebooks'

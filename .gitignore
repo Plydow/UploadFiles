@@ -1,0 +1,68 @@
+# Bytecode Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environnements virtuels
+venv/
+.env/
+ENV/
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# MkDocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# PyCharm
+.idea/
+*.iml
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# macOS
+.DS_Store
+
+# Autres fichiers et dossiers à ignorer
+*.swp
+*~
+!.vscode/
+*.env.local
+*.env.development.local
+*.env.test.local
+*.env.production.local
+
+# Fichiers de logs
+*.log
+*.csv
+*.dat
+*.out
+*.pid
+*.seed
+*.db
+*.sql
+*.sqlite
+*.sqlite3
+*.tar.gz
+*.zip
+*.gz
+*.rar
+*.7z
+
+# Dépendances Node.js
+/node_modules
+
+# Builds et dists
+/dist
+/build
+/.sass-cache
