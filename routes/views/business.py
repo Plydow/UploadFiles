@@ -5,11 +5,6 @@ import os
 
 views = Blueprint('business', __name__)
 
-@views.route('/context')
-@login_required
-def base_context():
-    return {'logged_in': session.get('logged_in', False)}
-
 @views.route('/upload')
 @login_required
 def upload():

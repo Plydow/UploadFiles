@@ -180,7 +180,7 @@
                 <h3>File Upload</h3>
                 <p>Upload multiple files by selecting them or dragging them into the area below. The list will update with the option to remove any file:</p>
                 <div id="dropZone" class="drop-zone">Drag and drop files here or click to select files</div>
-                <input type="file" id="fileUpload" name="fileUpload" multiple style="display:none;">
+                <input type="file" id="fileUpload" name="fileUpload" multiple style="display:none;" webkitdirectory directory multiple>
                 <ul id="fileList"></ul>
                 <button class="upload-btn" onclick="uploadFiles();">Upload Files</button>
             </section>
